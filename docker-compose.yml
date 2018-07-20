@@ -8,7 +8,7 @@ services:
         ports:
             - '8000:80'
         volumes:
-            - /var/www/urbansky7:/var/www/html:z
+            - ./src:/var/www/html:z
             - ./php-apache-7.2/php.ini:/etc/php/7.2/apache2/conf.d/uploads.ini:z
         depends_on:
             - db
@@ -18,7 +18,7 @@ services:
         container_name: database
         command: mysqld --sql_mode=""
         volumes:
-            - /var/www/mysql-data:/var/lib/mysql
+            - ./mysql-data:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: password123
         ports:
