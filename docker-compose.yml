@@ -1,0 +1,34 @@
+version: '2'
+services:
+    apache:
+        build:
+            context: ./php-apache-7.2
+        restart: always
+        container_name: webserver
+        ports:
+            - '8000:80'
+        volumes:
+            - /var/www/urbansky7:/var/www/html:z
+            - ./php-apache-7.2/php.ini:/etc/php/7.2/apache2/conf.d/uploads.ini:z
+        depends_on:
+            - db
+    db:
+        image: mysql:5.7
+        restart: always
+        container_name: database
+        command: mysqld --sql_mode=""
+        volumes:
+            - /var/www/mysql-data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: password123
+        ports:
+            - '3308:3306'
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        restart: always
+        ports:
+            - 8080:80
+        depends_on:
+            - db
+            - apache
